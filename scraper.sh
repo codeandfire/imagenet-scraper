@@ -50,7 +50,8 @@ download_wnid() {
 	# convert the http connections to https (if we use the raw http URLs
 	# a redirect with the same effect almost always takes place),
 	# and follow these URLs to download images.
-	wget -q -i <(wget "https://www.image-net.org/api/imagenet.synset.geturls?wnid=$wnid" -q -O - | grep -m "$num" 'flickr' | sed 's/http/https/')
+	wget -q -i <(wget "https://www.image-net.org/api/imagenet.synset.geturls?wnid=$wnid" -q -O - | \
+		grep -m "$num" 'flickr' | sed 's/http/https/')
 }
 
 export -f download_wnid
