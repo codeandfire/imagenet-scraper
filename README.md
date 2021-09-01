@@ -75,9 +75,9 @@ done | sort | uniq -c | sort -nr
 ```
 in order to produce the above distribution.)
 
-This has to do with the fact that many images in ImageNet are no longer available, so when you specify a certain number of images for download, a few among them turn out to be missing at runtime. (See the [next section](#details) for more details.)
+This has to do with the fact that many images in ImageNet are no longer available, so when you specify a certain number of images for download, a few among them turn out to be missing at runtime. (See [this section](#details) for more details.)
 
-Due to this issue, the average number of images downloaded per class will typically be less than the number you have specified. So, it is better to specify a higher number of images than what you actually want: for example, if you actually want 6 images per class, you should probably specify `-n '8'`. (Indeed, the average number of images in the above case turned out to be 6.1.) The number of images per class will still show some variability - i.e. you will not get exactly 6 images per class, but a number very close to 6 in most cases - but that should not be much of an issue in most applications.
+Due to this issue, the average number of images downloaded per class will typically be less than the number you have specified. So, it is better to specify a higher number of images than what you actually want: for example, if you actually want 6 images per class, you should probably specify `-n '8'`. (Indeed, the average number of images in the above case turned out to be 6.1.) The number of images per class will still show some variability - i.e. you will not get exactly 6 images per class, but a number very close to 6 in most cases - nevertheless that should not be an issue for most applications.
 
 ### WordNet IDs
 
