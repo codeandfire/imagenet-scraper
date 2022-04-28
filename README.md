@@ -39,13 +39,19 @@ The script parallelizes class-wise downloads to save on time. On a 4-core CPU wi
 
 ### Requirements
 
-This script relies on two GNU utilities: one is [Wget](https://www.gnu.org/software/wget/), and the second is [Parallel](https://www.gnu.org/software/parallel/):
+You will need Wget and GNU Parallel installed.
+Citation for GNU Parallel:
 
 > O. Tange (2011): GNU Parallel - The Command-Line Power Tool, ;login: The USENIX Magazine, February 2011:42-47.
 
-Both of these must be present on your system. On my Ubuntu 20.04 LTS system, Wget was already installed, and I installed Parallel using
+Typically these can be installed using your package manager.
+For example, on Debian systems
 ```
-$ sudo apt install parallel
+$ sudo apt install wget parallel
+```
+and on Arch systems:
+```
+$ sudo pacman -S wget parallel
 ```
 As you may have probably guessed, Wget does the actual downloading, while Parallel is responsible for parallelizing the class-wise downloads.
 
