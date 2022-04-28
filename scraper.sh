@@ -35,6 +35,12 @@ shift $((OPTIND - 1))
 wget --version > /dev/null || exit 1
 parallel --version > /dev/null || exit 1
 
+# if we set out to download N images, we will find that approx. 25% of these N images are no longer
+# available.
+# therefore a solution is to increase the number of images to download by a factor of 4/3, which
+# means that after a loss of 25% of these 4N/3 images, we will have around N images left.
+num=$(( 4 * $num / 3 ))
+
 # download images for the class corresponding to the given WordNet ID
 download_wnid() {
 
