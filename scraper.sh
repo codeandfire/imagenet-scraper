@@ -31,6 +31,10 @@ while getopts 'n:f:h' opt; do
 done
 shift $((OPTIND - 1))
 
+# check that requirements are installed
+wget --version > /dev/null || exit 1
+parallel --version > /dev/null || exit 1
+
 # download images for the class corresponding to the given WordNet ID
 download_wnid() {
 

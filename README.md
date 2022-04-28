@@ -6,15 +6,15 @@ The script must be given a list of classes for which you require images to be do
 
 These classes may be specified as command-line arguments:
 ```bash
-$ bash scraper.sh 'n01440764' 'n01443537'
+$ ./scraper.sh 'n01440764' 'n01443537'
 ```
 but as the number of classes grows, this may become very cumbersome. In such a case, you can list all the WordNet IDs in a file, separated by newlines, and use the `-f` option to specify this file to the script:
 ```bash
-$ bash scraper.sh -f 'wnids.txt'
+$ ./scraper.sh -f 'wnids.txt'
 ```
 By default, 10 images are downloaded per class specified. You can change this using the `-n` option:
 ```bash
-$ bash scraper.sh -n '50' -f 'wnids.txt'
+$ ./scraper.sh -n '50' -f 'wnids.txt'
 ```
 The downloaded images are stored in directories (inside the current directory) corresponding to each class. For example, for 'tench' and 'goldfish', the directory structure will look like this after running the script:
 ```
@@ -31,11 +31,11 @@ A snapshot of this script while running is shown below:
 
 ![snapshot](snapshot.png)
 
-The output is a progress bar (courtesy of GNU Parallel, see the [requirements section](#requirements) below). This progress bar indicates that downloading has completed for 4% of the classes; for 44 of them, downloading is in progress/has completed and for the remaining 956, downloading is yet to start. '990s' is the ETA, i.e. a loose estimate of how much more time the script will take. Finally 'n01694178' is the latest class that has entered the download queue (actually, this is just my guess: the GNU Parallel manual doesn't provide much clarity on this particular field shown with the progress bar).
+The output is a progress bar (courtesy of GNU Parallel, see the [requirements section](#requirements) below). This progress bar indicates that downloading has completed for 4% of the classes; for 44 of them, downloading is in progress/has completed and for the remaining 956, downloading is yet to start. '990s' is the ETA, i.e. a loose estimate of how much more time the script will take.
 
 ### Timing
 
-The script parallelizes class-wise downloads to save on time (see [this section](#details) for more details). On a 4-core CPU with a fairly good Internet connection, given 1000 classes and 8 images to download per class, it took about 26 minutes.
+The script parallelizes class-wise downloads to save on time. On a 4-core CPU with a fairly good Internet connection, given 1000 classes and 8 images to download per class, it took about 26 minutes.
 
 ### Requirements
 
@@ -85,13 +85,11 @@ If you are interested in the 1000 classes used in the ImageNet challenges from 2
 
 You can use this file to lookup individual IDs corresponding to the classes you are interested in, or to download images for all of the 1000 classes. In the latter case, note that you must not pass this file directly to the script (don't do `-f 'wnids_1000.txt'`), or it will fail - instead, you should do something like this:
 ```bash
-$ bash scraper.sh -f <(cut -d ',' -f '2' < wnids_1000.txt)
+$ ./scraper.sh -f <(cut -d ',' -f '2' < wnids_1000.txt)
 ```
 which will (temporarily) remove the labels in the file and retain only the WordNet IDs.
 
 ### Details
-
-In this final section, I would like to discuss some details about this script.
 
 Why do you need a script to scrape images from ImageNet? As of August 2021, if you need to access the "full" ImageNet, you need to [submit a request](https://image-net.org/download.php). Otherwise, if you need the subset of ImageNet comprising 1000 classes that was used in the ImageNet challenges from 2012-2017, that dataset is available on [Kaggle](https://www.kaggle.com/c/imagenet-object-localization-challenge/overview/description): however, it is over 150 GB in size.
 
@@ -103,11 +101,7 @@ yields a list of image URLs corresponding to the class whose WordNet ID `<wnid>`
 
 These links are old - they were collected in 2011 - so it turns out that many of them are broken. A large bulk of URLs are from Flickr, and they are often more reliable than the others,<sup>[1](#footnote1)</sup> so this script uses only the Flickr URLs. But even the Flickr URLs have problems, and sometimes result in 404 and other errors, leading to the issue discussed [previously](#note).
 
-To speed up the downloads, we can run them in parallel. Courtesy to GNU Parallel, the script runs as many download processes in parallel as the number of cores on your CPU, and displays a very helpful progress bar. Note that only the class-wise downloads are parallelized: in other words, downloads within a class run serially, but downloads across classes run in parallel.
-
-(Actually, whether downloads within a class run serially depends on the implementation of Wget: it is quite possible that when Wget is given multiple URLs for downloading, it performs the downloads more efficiently than a pure serial-order download.)
-
-As a last note, I would like to mention that ImageNet is facing several [privacy issues](https://image-net.org/update-mar-11-2021.php), so any data scraped from it must be used responsibly.
+As a last note, please keep in mind that ImageNet is facing several [privacy issues](https://image-net.org/update-mar-11-2021.php), so any data scraped from it must be used responsibly.
 
 ### References
 
