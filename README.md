@@ -83,10 +83,10 @@ which will (temporarily) remove the labels in the file and retain only the WordN
 ### Script Working
 
 Why do you need a script to scrape images from ImageNet?
-As of August 2021, if you need to access the "full" ImageNet, you need to [submit a request](https://image-net.org/download.php).
+As of 2022, if you need to access the "full" ImageNet, you need to [submit a request](https://image-net.org/download.php).
 Otherwise, if you need the subset of ImageNet comprising 1000 classes that was used in the ImageNet challenges from 2012-2017, that dataset is available on [Kaggle](https://www.kaggle.com/c/imagenet-object-localization-challenge/overview/description): however, it is over 150 GB in size.
 
-As of August 2021, the link
+As of 2022, the link
 ```
 https://www.image-net.org/api/imagenet.synset.geturls?wnid=<wnid>
 ```
