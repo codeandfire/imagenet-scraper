@@ -82,5 +82,5 @@ export -f download_wnid
 if [[ -z $* ]]; then
 	parallel --bar "download_wnid {} $num" < /dev/stdin
 else
-	(IFS=$'\n'; echo "$*") | parallel --bar "download_wnid {} $num"
+	parallel --bar "download_wnid {} $num" < <(IFS=$'\n'; echo "$*")
 fi
