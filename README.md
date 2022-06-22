@@ -33,11 +33,7 @@ n01443537/
 ```
 A snapshot of this script while running is shown below:
 
-![snapshot](snapshot.png)
-
-The output is a progress bar (courtesy of GNU Parallel, see the [requirements section](#requirements) below).
-This progress bar indicates that downloading has completed for 4% of the classes; for 44 of them, downloading is in progress/has completed and for the remaining 956, downloading is yet to start.
-'990s' is the ETA, i.e. a loose estimate of how much more time the script will take.
+The output is a progress bar (courtesy of GNU Parallel, see the [requirements section](#requirements) below) which displays the ETA (a loose estimate of how much more time the script will take) in seconds.
 
 ### Timing
 
