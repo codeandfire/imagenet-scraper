@@ -70,7 +70,7 @@ See [this section](#details) for more details.
 If you are interested in the 1000 classes used in the ImageNet challenges from 2012-2017, you can use the file `wnids_1000.txt` provided, which contains the WordNet IDs of these classes along with a short label describing each class.
 
 You can use this file to lookup individual IDs corresponding to the classes you are interested in, or to download images for all of the 1000 classes.
-In the latter case, note that you must not pass this file directly to the script (don't do `-f 'wnids_1000.txt'`), or it will fail - instead, you should do something like this:
+In the latter case, note that you must not pass this file directly to the script, or it will fail - instead, you should do something like this:
 ```bash
 $ ./scraper < <(cut -d ',' -f '2' < 'wnids_1000.txt')
 ```
