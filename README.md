@@ -42,8 +42,8 @@ On a 4-core CPU with a fairly good Internet connection, given 1000 classes and 8
 
 ### Requirements
 
-You will need Wget and GNU Parallel installed.
-Citation for GNU Parallel:
+You will need Wget and Parallel installed.
+Citation for Parallel:
 
 > O. Tange (2011): GNU Parallel - The Command-Line Power Tool, ;login: The USENIX Magazine, February 2011:42-47.
 
