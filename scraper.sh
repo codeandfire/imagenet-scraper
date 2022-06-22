@@ -12,25 +12,22 @@ API_URL='https://www.image-net.org/api/imagenet.synset.geturls'
 # display a help message
 help_msg() {
 	printf "%s\n" \
-		"Usage: $0 [-n NUM] [-f FILE] [WNID]..." \
+		"Usage: $0 [-n NUM] WNID1 WNID2 ..." \
 		'Scrapes images from ImageNet for classes corresponding to the WordNet IDs (WNIDs).' \
 		'Examples:'
 	printf "\t%s\n" \
 		"$0 -n 5 'n01440764' 'n01443537'" \
-		"$0 -n 5 -f wnids.txt"
+		"$0 -n '150' < 'wnids_file.txt'"
 	printf "%s\n" 'Options:'
 	printf "\t%s\t%s\n" \
 		'-n' 'number of images to download per class (default 10)' \
-		'-f' 'file containing WordNet IDs of classes; if specified, ' \
-		'  ' 'any WNIDS passed are ignored' \
 		'-h' 'print this help message and exit'
 }
 
 # parse command line options
-while getopts 'n:f:h' opt; do
+while getopts 'n:h' opt; do
 	case "$opt" in
 		n) num="$OPTARG" ;;
-		f) wnidfile="$OPTARG" ;;
 		h) help_msg; exit 0;;
 		*) echo "See '$0 -h' for more details."; exit 1;;
 	esac
@@ -79,10 +76,8 @@ export -f download_wnid
 
 # download images for the various classes in a parallel manner.
 # (within a class the images are downloaded serially, but across classes there is parallelization.)
-# use the file of WordNet IDs if specified, otherwise use the WordNet IDs
-# passed as command-line arguments.
-if [[ -n "$wnidfile" ]]; then
-	parallel --bar "download_wnid {} $num" < "$wnidfile"
+if [[ -z $* ]]; then
+	parallel --bar "download_wnid {} $num" < /dev/stdin
 else
 	(IFS=$'\n'; echo "$*") | parallel --bar "download_wnid {} $num"
 fi
