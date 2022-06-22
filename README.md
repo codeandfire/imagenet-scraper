@@ -10,14 +10,14 @@ These classes may be specified as command-line arguments:
 $ ./scraper.sh 'n01440764' 'n01443537'
 ```
 but as the number of classes grows, this may become very cumbersome.
-In such a case, you can list all the WordNet IDs in a file, separated by newlines, and use the `-f` option to specify this file to the script:
+In such a case, you can list all the WordNet IDs in a file, separated by newlines, and specify this file to the script as follows:
 ```bash
-$ ./scraper.sh -f 'wnids.txt'
+$ ./scraper.sh < 'wnids_file.txt'
 ```
 By default, 10 images are downloaded per class specified.
 You can change this using the `-n` option:
 ```bash
-$ ./scraper.sh -n '50' -f 'wnids.txt'
+$ ./scraper.sh -n '50' < 'wnids_file.txt'
 ```
 The downloaded images are stored in directories (inside the current directory) corresponding to each class.
 For example, for 'tench' and 'goldfish', the directory structure will look like this after running the script:
@@ -76,7 +76,7 @@ If you are interested in the 1000 classes used in the ImageNet challenges from 2
 You can use this file to lookup individual IDs corresponding to the classes you are interested in, or to download images for all of the 1000 classes.
 In the latter case, note that you must not pass this file directly to the script (don't do `-f 'wnids_1000.txt'`), or it will fail - instead, you should do something like this:
 ```bash
-$ ./scraper.sh -f <(cut -d ',' -f '2' < wnids_1000.txt)
+$ ./scraper.sh < <(cut -d ',' -f '2' < 'wnids_1000.txt')
 ```
 which will (temporarily) remove the labels in the file and retain only the WordNet IDs.
 
