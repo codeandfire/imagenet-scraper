@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+# configuration
+# -------------
+
+# default number of images to download per class.
+DEFAULT_NUM=10
+
+# ImageNet API URL.
+API_URL='https://www.image-net.org/api/imagenet.synset.geturls'
+
 # display a help message
 help_msg() {
 	printf "%s\n" \
@@ -16,9 +25,6 @@ help_msg() {
 		'  ' 'any WNIDS passed are ignored' \
 		'-h' 'print this help message and exit'
 }
-
-# default number of images to download per class
-num='10'
 
 # parse command line options
 while getopts 'n:f:h' opt; do
@@ -39,7 +45,7 @@ parallel --version > /dev/null || exit 1
 # available.
 # therefore a solution is to increase the number of images to download by a factor of 4/3, which
 # means that after a loss of 25% of these 4N/3 images, we will have around N images left.
-num=$(( 4 * $num / 3 ))
+num=$(( 4 * "${num:-$DEFAULT_NUM}" / 3 ))
 
 # download images for the class corresponding to the given WordNet ID
 download_wnid() {
@@ -59,7 +65,7 @@ download_wnid() {
 	# the most reliable), convert the http connections to https (if we use the raw http URLs
 	# a redirect with the same effect almost always takes place), and follow these URLs to download
 	# images.
-	wget -q -i <(wget "https://www.image-net.org/api/imagenet.synset.geturls?wnid=$wnid" -q -O - | \
+	wget -q -i <(wget "$API_URL?wnid=$wnid" -q -O - | \
 		grep -m "$num" 'flickr' | sed 's/http/https/')
 
 	# we will observe that wget almost always returns a non-zero exit code (a code of 8, in fact) due
