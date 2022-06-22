@@ -9,27 +9,24 @@ DEFAULT_NUM=10
 # ImageNet API URL.
 API_URL='https://www.image-net.org/api/imagenet.synset.geturls'
 
-# display a help message
-help_msg() {
-	printf "%s\n" \
-		"Usage: $0 [-n NUM] WNID1 WNID2 ..." \
-		'Scrapes images from ImageNet for classes corresponding to the WordNet IDs (WNIDs).' \
-		'Examples:'
-	printf "\t%s\n" \
-		"$0 -n 5 'n01440764' 'n01443537'" \
-		"$0 -n '150' < 'wnids_file.txt'"
-	printf "%s\n" 'Options:'
-	printf "\t%s\t%s\n" \
-		'-n' 'number of images to download per class (default 10)' \
-		'-h' 'print this help message and exit'
-}
-
 # parse command line options
 while getopts 'n:h' opt; do
 	case "$opt" in
 		n) num="$OPTARG" ;;
-		h) help_msg; exit 0;;
-		*) echo "See '$0 -h' for more details."; exit 1;;
+		h) { cat <<EOF
+Usage: $0 [-n NUM] WNID1 WNID2 ...
+Scrapes images from the classes corresponding to the input WordNet IDs.
+
+Examples:
+	$0 -n '5' 'n01440764' 'n01443537'
+	$0 -n '150' < 'wnids_file.txt'
+
+Options:
+	-n	Number of images to download per class (default: 10).
+	-h	Print this help message and exit.
+EOF
+		     exit 0; } ;;
+		*) cat <<<"See $0 -h for more details." && exit 1 ;;
 	esac
 done
 shift $((OPTIND - 1))
