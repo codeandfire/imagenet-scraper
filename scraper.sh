@@ -32,8 +32,14 @@ done
 shift $((OPTIND - 1))
 
 # check that requirements are installed
-wget --version > /dev/null || exit 1
-parallel --version > /dev/null || exit 1
+wget --version > /dev/null || {
+	cat <<<"Please install Wget and try again."
+	exit 1
+}
+parallel --version > /dev/null || {
+	cat <<<"Please install Parallel and try again."
+	exit 1
+}
 
 # if we set out to download N images, we will find that approx. 25% of these N images are no longer
 # available.
